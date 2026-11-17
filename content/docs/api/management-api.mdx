@@ -57,8 +57,8 @@ Platform Admins and Auditors still see personal workspaces' totals in platform r
 
 From v0.10.0 the repository carries drift-checked OpenAPI 3.1 documents:
 
-- [`docs/openapi/management.openapi.json`](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/openapi/management.openapi.json): every management route (251 operations), including each route's access policy and admin API token scope, generated from the gateway's route policy and checked against the real handlers.
-- [`docs/openapi/inference.openapi.json`](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/openapi/inference.openapi.json): the supported inference API (27 operations).
+- [`docs/openapi/management.openapi.json`](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/openapi/management.openapi.json): every management route (251 operations), including each route's access policy and admin API token scope, generated from the gateway's route policy and checked against the real handlers.
+- [`docs/openapi/inference.openapi.json`](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/openapi/inference.openapi.json): the supported inference API (27 operations).
 
 Rules JSON Schema can't express are described in each operation and in `x-omg-*` extensions, which code generators ignore; the extensions are listed in the documents' READMEs beside them. For example, `x-omg-integer-encoding: "json-integer-literal"` records that integers must be JSON integer literals, which ordinary schema validators don't check.
 
@@ -163,7 +163,7 @@ All under `/api/v1`.
 - `GET /platform/models` also takes `not_in_catalog=<catalog id>` and `not_direct_in=<workspace id>`, to leave out models already in a catalog or assigned to a workspace.
 - Audit rows name their actor, workspace and target (`actor_name`, `workspace_name`, `target_name`), and key rows their holder (`issued_to_name`), so the dashboard needn't load every user or workspace.
 
-The complete route list, with bodies and responses, is in the [OpenAPI document](#openapi-documents) and the repository's [`docs/management-api.md`](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/management-api.md) and [`docs/governance-api.md`](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/governance-api.md).
+The complete route list, with bodies and responses, is in the [OpenAPI document](#openapi-documents) and the repository's [`docs/management-api.md`](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/management-api.md) and [`docs/governance-api.md`](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/governance-api.md).
 
 ## SCIM
 

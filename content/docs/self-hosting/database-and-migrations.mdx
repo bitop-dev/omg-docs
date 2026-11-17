@@ -130,7 +130,7 @@ Some of v0.6.0's migrations take locks worth planning for: `0041` rewrites the s
 
 ## Highly available PostgreSQL
 
-The repository's [HA PostgreSQL guide](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md), new in v0.5.0, is for running two or more replicas on a primary with at least one standby. In short:
+The repository's [HA PostgreSQL guide](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md), new in v0.5.0, is for running two or more replicas on a primary with at least one standby. In short:
 
 - **The gateway has no failover logic of its own.** It reaches the primary through a host name that moves on failover. While no primary is reachable it refuses new work (`503 accounting_unavailable`, or `504` if a commit hangs) rather than serving it unaccounted. Requests already running keep their holds and are reconciled as unknown.
 - **Use a synchronous standby that can't silently become asynchronous.** With asynchronous replication a failover can lose recent admissions, settlements and management changes, such as a key revocation. A primary failover with the chart's legacy two-instance setting lost 16 acknowledged requests' accounting rows. The guide recommends three instances with a required, quorum-based policy; for the chart, see [Production durability policy](/docs/self-hosting/kubernetes#production-durability-policy).

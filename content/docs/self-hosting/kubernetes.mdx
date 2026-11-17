@@ -28,7 +28,7 @@ Other secrets, such as an SMTP password, an alert webhook signing secret, the au
 - **External** (default): point the chart's database secrets at your own PostgreSQL 17: a managed HA cluster, Patroni, or a CNPG `Cluster` you manage outside the chart.
 - **Chart-managed CloudNativePG**: the chart renders a CNPG `Cluster` (anti-affinity across nodes) and `Pooler` (PgBouncer, transaction mode) for you, using roles backed by Secrets you pre-create. The chart never writes a password into rendered YAML. By default the cluster has two instances with the legacy `minSyncReplicas: 1` and `maxSyncReplicas: 1`, which can fall back to asynchronous replication and lose acknowledged writes in a failover. For production, use the [durability policy](#production-durability-policy) below.
 
-For failover, replication and sizing, see the repository's [HA PostgreSQL guide](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md) and [Database and migrations](/docs/self-hosting/database-and-migrations#highly-available-postgresql).
+For failover, replication and sizing, see the repository's [HA PostgreSQL guide](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md) and [Database and migrations](/docs/self-hosting/database-and-migrations#highly-available-postgresql).
 
 ### Production durability policy
 
@@ -78,7 +78,7 @@ Before v0.5.0 a chart-managed database needed two steps. That is no longer neces
 
 From v0.9.0, a **new** chart-managed cluster restricts database access when it is first created: the runtime role and `PUBLIC` lose `CONNECT` on `postgres` and `template1`, and `TEMPORARY` on the gateway's database. CloudNativePG's own replication, monitoring and pooler roles keep their access. The application database's `CONNECT` stays; table privileges still come only from `grants apply`.
 
-This runs once, at the cluster's first initialization. It doesn't change an existing cluster, a restored one or an external database, and a chart upgrade never reruns it. On a cluster created before v0.9.0, a strict `grants verify` can fail on `maintenance database access`. Don't recreate the cluster or its volumes to fix it: follow the repository's reviewed [manual remediation](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md#existing-cnpg-cluster-acl-remediation-315), run as a PostgreSQL superuser with every gateway stopped.
+This runs once, at the cluster's first initialization. It doesn't change an existing cluster, a restored one or an external database, and a chart upgrade never reruns it. On a cluster created before v0.9.0, a strict `grants verify` can fail on `maintenance database access`. Don't recreate the cluster or its volumes to fix it: follow the repository's reviewed [manual remediation](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md#existing-cnpg-cluster-acl-remediation-315), run as a PostgreSQL superuser with every gateway stopped.
 
 ## Migration Job and runtime grants
 
@@ -177,7 +177,7 @@ networkPolicy:
 
 `cnpg.cluster.smartShutdownTimeout` (default 15 seconds, new in v0.5.0) is how long a stopping primary waits for clients before a fast shutdown. CloudNativePG's own default is 180 seconds. The pooler's connections and each replica's `LISTEN` session never close on their own, so with 180 seconds a failover kept writes down for about three minutes on the homelab cluster.
 
-With 15 seconds, at 60 requests a second with three gateway replicas and two database instances, the standby was promoted in 18 seconds. About 22 seconds later, writes stalled again while the old primary rejoined as the synchronous standby. That second outage is not yet explained (#149).
+With 15 seconds, at 60 requests a second with three gateway replicas and two database instances, the standby was promoted in 18 seconds. About 22 seconds later, writes stalled again while the old primary rejoined as the synchronous standby. [Gateway #149](https://github.com/bitop-dev/open-model-gateway/issues/149) closed after measurement and source analysis identified this as legacy failover behaviour; the legacy policy can also drop the synchronous quorum to zero and lose acknowledged writes. Use the explicit [production durability policy](#production-durability-policy), not the instance count alone.
 
 Requests interrupted by a failover keep their holds and are reconciled as unknown, as long as their reservation reached the promoted standby. A later drill with the legacy two-instance setup lost 16 acknowledged requests' accounting rows, which reconciliation can't recover. Drain timing is no durability safeguard: use the [production durability policy](#production-durability-policy) and check it.
 

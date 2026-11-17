@@ -5,7 +5,7 @@ description: The security release. One outbound address policy, sign-in limits a
 
 Released 2026-10-15. Migrations `0038` to `0048`.
 
-This is the security release. Every outbound connection follows one address policy. Sign-in is rate-limited, and people can see and end their own dashboard sessions. The audit log streams to a SIEM, with numbers that let the receiver spot a lost event. People's data can be exported, removed early and put on legal hold, and there's a documented retention period for each kind. File-store master keys can be retired. A new [threat model](https://github.com/ncecere/open-model-gateway/blob/v0.6.0/docs/threat-model.md) maps each threat to the code and tests that address it.
+This is the security release. Every outbound connection follows one address policy. Sign-in is rate-limited, and people can see and end their own dashboard sessions. The audit log streams to a SIEM, with numbers that let the receiver spot a lost event. People's data can be exported, removed early and put on legal hold, and there's a documented retention period for each kind. File-store master keys can be retired. A new [threat model](https://github.com/bitop-dev/open-model-gateway/blob/v0.6.0/docs/threat-model.md) maps each threat to the code and tests that address it.
 
 Several changes can stop email, sign-in, storage or clients until you act. Read [Before you upgrade](#before-you-upgrade) first.
 

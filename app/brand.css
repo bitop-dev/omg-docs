@@ -6,7 +6,7 @@
  * places at once.
  *
  * The values come from Open Model Gateway's own dashboard
- * (github.com/ncecere/open-model-gateway, main for v0.3.0), which uses the
+ * (github.com/bitop-dev/open-model-gateway, main for v0.3.0), which uses the
  * Bitop UI library: apps/web/src/components/ui/themes/neutral.css (colours:
  * cool slate neutrals with an indigo accent, light and dark; shadows) and
  * apps/web/src/components/ui/styles/tokens.css (radii, font stack). The

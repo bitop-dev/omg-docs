@@ -67,7 +67,7 @@ Neither retries nor affects readiness. When a collector's address is refused by 
 - **Cache controls need a price that covers them.** A native request that uses prompt caching needs a v2 or v3 price that prices cache reads and every cache-write TTL it asks for.
 - Structured output, strict tools and server tools are still refused. The Messages output limit rises to 16 MiB.
 
-See [Messages](/docs/api/messages) and the repository's [Claude Code setup](https://github.com/ncecere/open-model-gateway/blob/v0.9.0/docs/claude-code.md).
+See [Messages](/docs/api/messages) and the repository's [Claude Code setup](https://github.com/bitop-dev/open-model-gateway/blob/v0.9.0/docs/claude-code.md).
 
 ## Route history and previews
 
@@ -89,7 +89,7 @@ Platform Admins can upload closed **Anthropic Cost Report** JSON periods, map th
 
 - **Local endpoint approvals in special-use ranges stop startup.** v0.8.0 warned; now `serve` refuses to start if `GATEWAY_LOCAL_UPSTREAMS` approves an address in `198.18.0.0/15`, `2001:2::/48`, `192.0.0.0/24`, `192.88.99.0/24`, `192.0.2.0/24`, `198.51.100.0/24`, `203.0.113.0/24`, `2001:db8::/32`, `3fff::/20` or any of `fd00:ec2::/32` (over HTTP or HTTPS). Addresses with an IPv4 address inside are judged by that address. The error names each approval and the setting. Replace the address with the server's real public or private address, or remove the approval. Only `serve` is affected; a replica that fails never becomes ready, so a rolling deployment keeps the old replicas.
 - **The runtime role loses `TEMPORARY`.** `grants apply` now revokes it from `PUBLIC` and from the runtime role on the gateway's database, and `grants verify` checks that the runtime role can't create a temporary table. Any other role relying on PUBLIC's default `TEMPORARY` loses it too: use a dedicated database for the gateway.
-- **New chart-managed CloudNativePG clusters restrict database access.** A fresh install revokes PUBLIC `CONNECT` on `postgres` and `template1`, and PUBLIC `TEMPORARY` on the application database. Existing clusters and external databases are unchanged; the repository documents a [manual fix for existing clusters](https://github.com/ncecere/open-model-gateway/blob/v0.9.0/docs/postgresql-ha.md#existing-cnpg-cluster-acl-remediation-315).
+- **New chart-managed CloudNativePG clusters restrict database access.** A fresh install revokes PUBLIC `CONNECT` on `postgres` and `template1`, and PUBLIC `TEMPORARY` on the application database. Existing clusters and external databases are unchanged; the repository documents a [manual fix for existing clusters](https://github.com/bitop-dev/open-model-gateway/blob/v0.9.0/docs/postgresql-ha.md#existing-cnpg-cluster-acl-remediation-315).
 - **Development-only HTTP exports go only to loopback.** With `GATEWAY_ENV=development`, plain-HTTP OTLP traces, metrics and logs and audit webhooks and OTLP connect only if every resolved address is loopback. Use HTTPS to export to another host. Production installations never allowed plain HTTP and are unaffected.
 - **Another owner's personal workspace returns `404`** on workspace routes, the same as an unknown id, including for Platform Admins and Auditors (was `403`).
 - **Additive fields** on alert deliveries, workspaces (`discoverable`) and deployments (`revision`). Consumers that reject unknown fields need updating.
@@ -163,4 +163,4 @@ Coming from an earlier release, first follow the [v0.8.0 upgrade guide](/docs/re
 
 ## Upgrading
 
-The image is `ghcr.io/ncecere/open-model-gateway:v0.9.0@sha256:fb4ac91bae8aeeed8da5f1203d610c03c0202b60fe236db69e2470a2d816fb39`. The [GitHub release](https://github.com/ncecere/open-model-gateway/releases/tag/v0.9.0) has the digest, SBOMs and checksums, and how to verify the signature. See [Upgrades](/docs/self-hosting/upgrades) for the general procedure.
+The image is `ghcr.io/ncecere/open-model-gateway:v0.9.0@sha256:fb4ac91bae8aeeed8da5f1203d610c03c0202b60fe236db69e2470a2d816fb39`. The [GitHub release](https://github.com/bitop-dev/open-model-gateway/releases/tag/v0.9.0) has the digest, SBOMs and checksums, and how to verify the signature. See [Upgrades](/docs/self-hosting/upgrades) for the general procedure.

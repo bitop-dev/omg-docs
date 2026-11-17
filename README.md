@@ -1,6 +1,6 @@
 # Open Model Gateway docs
 
-The user, administrator and operator documentation for [Open Model Gateway](https://github.com/ncecere/open-model-gateway), the self-hosted AI model gateway for one enterprise. It's published at <https://docs.omg.bitop.dev>; the product's website is <https://omg.bitop.dev>. Both addresses, the repositories and the release the docs describe are in `lib/site.ts`.
+The user, administrator and operator documentation for [Open Model Gateway](https://github.com/bitop-dev/open-model-gateway), the self-hosted AI model gateway for one enterprise. It's published at <https://docs.omg.bitop.dev>; the product's website is <https://omg.bitop.dev>. Both addresses, the repositories and the release the docs describe are in `lib/site.ts`.
 
 These pages are for the people who call models through the gateway, the administrators who run an installation, and the operators who host it. The Open Model Gateway repository's own `docs/` folder stays the engineering record (contracts, design notes and runbooks). The docs describe **Open Model Gateway v0.10.0**, released 2026-11-02.
 
@@ -22,6 +22,7 @@ npm run dev          # http://localhost:3000
 | `npm run dev` | Development server with hot reload. |
 | `npm run build` | The static export, in `out/`, followed by `check-names` (below). |
 | `npm run check:links` | Checks every internal link and anchor in `out/` (run after a build). |
+| `npm run test:origins` | Checks current repository/publishing paths and historical release image/signature references. |
 | `npm run typecheck` | TypeScript. |
 | `npm start` | Serves `out/` locally. |
 | `npm run screenshots` | Imports screenshots (below). |
@@ -96,10 +97,14 @@ nginx (Alpine, pinned by digest) runs as user 101 on port 8080, keeps its pid an
 
 Pushes to `main` run `.github/workflows/publish.yaml`: it type-checks, builds (including `check-names`) and link-checks the site, then builds and pushes a multi-arch image (linux/amd64, linux/arm64):
 
-- `ghcr.io/ncecere/omg-docs:<full commit sha>`
-- `ghcr.io/ncecere/omg-docs:latest`
+- `ghcr.io/bitop-dev/omg-docs:<full commit sha>`
+- `ghcr.io/bitop-dev/omg-docs:latest`
 
 Pull requests run the checks only. Actions are pinned by commit SHA, and Dependabot opens grouped weekly updates for npm, Actions and the Docker base images.
+
+The docs image now publishes under `bitop-dev`; a deployment still pulling `ghcr.io/ncecere/omg-docs` must be updated separately to receive new builds. This repository does not change the hosting configuration.
+
+Gateway image examples remain pinned to the release these docs describe, v0.10.0. That release still pulls from `ghcr.io/ncecere/open-model-gateway` and verifies against its original `ncecere` workflow identity. Repository links use `bitop-dev`, but transferring a repository does not move old packages or change existing signing certificates. See [Container and Compose](content/docs/self-hosting/container.mdx#release-images) for the distinction between historical and post-transfer images.
 
 ## Licence
 
