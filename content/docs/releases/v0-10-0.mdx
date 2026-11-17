@@ -11,8 +11,8 @@ This release publishes OpenAPI 3.1 documents for the management API and the supp
 
 Two documents are in the repository at `docs/openapi/`:
 
-- **[Management API](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/openapi/management.openapi.json)**: every management route (251 operations), generated from the gateway's route policies, with each route's access rules, admin-token scopes and error responses. Every documented response is checked against real responses, and request limits are tested over HTTP against a running gateway.
-- **[Inference API](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/openapi/inference.openapi.json)**: the supported inference subset (27 operations): models, embeddings, rerank, System One, images, Chat Completions, Responses and Messages (JSON and streaming, tools, usage and refusals), audio, files, batches, the legacy videos route and the realtime WebSocket. The documented examples are replayed through the official OpenAI and Anthropic SDKs. Each protocol keeps its own error format.
+- **[Management API](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/openapi/management.openapi.json)**: every management route (251 operations), generated from the gateway's route policies, with each route's access rules, admin-token scopes and error responses. Every documented response is checked against real responses, and request limits are tested over HTTP against a running gateway.
+- **[Inference API](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/openapi/inference.openapi.json)**: the supported inference subset (27 operations): models, embeddings, rerank, System One, images, Chat Completions, Responses and Messages (JSON and streaming, tools, usage and refusals), audio, files, batches, the legacy videos route and the realtime WebSocket. The documented examples are replayed through the official OpenAI and Anthropic SDKs. Each protocol keeps its own error format.
 
 **Integers must be JSON integer literals.** Request integers can't have a fraction, an exponent or be `-0` (pagination `offset` accepts `-0` as zero). JSON Schema can't express this, so both documents declare `x-omg-integer-encoding: "json-integer-literal"`; a generic validator accepts `1.0`, but the gateway refuses it. Rules like this that a schema can't state are described in each operation and in the `x-omg-*` extensions, which SDK generators don't use.
 
@@ -91,4 +91,4 @@ With Helm, upgrade the image and chart with `--set migrations.run=true`. See [Up
 
 ## Upgrading
 
-The image is `ghcr.io/ncecere/open-model-gateway:v0.10.0@sha256:77a37910d5af8ef26cdacec1f7dac026ba2aee32d9de8fd8ab30c039adbcdbe6`. The [GitHub release](https://github.com/ncecere/open-model-gateway/releases/tag/v0.10.0) has the digest, SBOMs and checksums, and how to verify the signature. See [Upgrades](/docs/self-hosting/upgrades) for the general procedure.
+The image is `ghcr.io/ncecere/open-model-gateway:v0.10.0@sha256:77a37910d5af8ef26cdacec1f7dac026ba2aee32d9de8fd8ab30c039adbcdbe6`. The [GitHub release](https://github.com/bitop-dev/open-model-gateway/releases/tag/v0.10.0) has the digest, SBOMs and checksums, and how to verify the signature. See [Upgrades](/docs/self-hosting/upgrades) for the general procedure.

@@ -12,6 +12,7 @@
     "build": "next build",
     "postbuild": "node scripts/check-names.mjs",
     "check:links": "node scripts/check-links.mjs",
+    "test:origins": "node --experimental-strip-types --test scripts/origins.test.mjs",
     "typecheck": "next typegen && tsc --noEmit",
     "start": "serve out",
     "screenshots": "node scripts/import-screenshots.mjs",

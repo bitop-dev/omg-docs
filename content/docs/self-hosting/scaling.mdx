@@ -71,16 +71,16 @@ From v0.5.0 the project tests on its homelab Kubernetes cluster: CloudNativePG 1
 
 **Faults.** Under every fault tested (graceful and hard gateway kills, streams cut midway, a primary failover under load), interrupted attempts kept their holds and were reconciled as unknown. Across 117,256 attempts no reservation stayed pending, nothing was charged twice, and `budget verify` and `history verify` were clean. In v0.6.0, restarting the PgBouncer Pooler under load failed 2 of 5,400 requests, and dropping every replica's `LISTEN` connection failed none. For failover timing, see [Kubernetes](/docs/self-hosting/kubernetes#failover-timing).
 
-**A slow commit no longer stalls the pool.** Before v0.5.0, every successful request refreshed the same routing-health row every 30 seconds. Behind a slow commit they all queued on it, each holding a pooled connection. Now one task per replica refreshes it, and skips it while it is busy (#132).
+**A slow commit no longer stalls the pool.** Before v0.5.0, every successful request refreshed the same routing-health row every 30 seconds. Behind a slow commit they all queued on it, each holding a pooled connection. Now one task per replica refreshes it, and skips it while it is busy ([gateway #132](https://github.com/bitop-dev/open-model-gateway/issues/132)).
 
 ## Known limits
 
-- **No certified capacity number.** About half the steady-load runs still hit stalls of 17–40 seconds, sometimes without recovering (#132). Clean runs held 100–150 requests a second with p99 under 650 ms.
-- **A second write outage after a two-instance failover** is still open (#149), and a primary failover with the legacy two-instance replication setting lost 16 acknowledged requests' accounting rows. Run three database instances with the [durability policy](/docs/self-hosting/kubernetes#production-durability-policy) added in v0.9.3: in the project's drill it lost nothing, at the cost of a write outage of about 34 seconds.
+- **No certified capacity number.** About half the steady-load runs still hit stalls of 17–40 seconds, sometimes without recovering ([gateway #132](https://github.com/bitop-dev/open-model-gateway/issues/132)). Clean runs held 100–150 requests a second with p99 under 650 ms.
+- **A second write outage after a two-instance failover** was investigated in [gateway #149](https://github.com/bitop-dev/open-model-gateway/issues/149), now closed. The legacy two-instance replication setting can drop its synchronous quorum to zero; a primary failover lost 16 acknowledged requests' accounting rows. Run three database instances with the explicit [durability policy](/docs/self-hosting/kubernetes#production-durability-policy) added in v0.9.3, rather than increasing the instance count alone: in the project's drill it lost nothing, at the cost of a write outage of about 34 seconds.
 - **The chart's default database sizing is too small for load.** Size it for yours.
 - One workspace or one key still tops out at a few hundred admissions a second, by design ([above](#per-workspace-and-key-ceiling)).
 
-The repository's [HA PostgreSQL guide](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md) has the details and what hasn't been measured yet.
+The repository's [HA PostgreSQL guide](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/postgresql-ha.md) has the details and what hasn't been measured yet.
 
 ## An optional reporting replica
 

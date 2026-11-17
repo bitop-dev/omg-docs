@@ -15,15 +15,19 @@ The image has been distroless since v0.3.1. v0.9.1 moved it from Debian 12 to De
 
 ### Release images
 
-From v0.3.0, each release publishes a signed image to `ghcr.io/ncecere/open-model-gateway`, under three tags:
+From v0.3.0, releases publish signed images under three tags. The releases described here, through v0.10.0, were published to `ghcr.io/ncecere/open-model-gateway`:
 
 | Tag | Points to |
 |---|---|
 | `vX.Y.Z`, such as `v0.10.0` | That release. |
 | `vX.Y`, such as `v0.10` | The newest patch release of that minor version. |
-| `latest-release` | The newest release. |
+| `latest-release` | The newest release at that registry path. |
 
-Images are signed with cosign keyless signing from the repository's GitHub Actions workflow. Check the signature with **cosign v3.0 or newer** (cosign v2 reports "no signatures found": from v0.4.0, signatures are stored in cosign v3's bundle format), then pin the image by its digest:
+<Callout title="Repository transfer and image paths">
+  The source now lives at [bitop-dev/open-model-gateway](https://github.com/bitop-dev/open-model-gateway). New images published after the transfer will use `ghcr.io/bitop-dev/open-model-gateway`, with the signing identity `https://github.com/bitop-dev/open-model-gateway/.github/workflows/image.yml@refs/tags/<version>`. Existing images stay at their original registry path and keep their original signing identity; the transfer does not copy or re-sign them. Use the exact image, digest and certificate identity in the target version's [GitHub release](https://github.com/bitop-dev/open-model-gateway/releases). The v0.10.0 examples below deliberately keep `ncecere` for both the image and certificate.
+</Callout>
+
+Images are signed with cosign keyless signing from the repository's GitHub Actions workflow. Check the signature with **cosign v3.0 or newer** (cosign v2 reports "no signatures found": from v0.4.0, signatures are stored in cosign v3's bundle format), then pin the image by its digest. For v0.10.0:
 
 ```sh
 cosign verify ghcr.io/ncecere/open-model-gateway@sha256:77a37910d5af8ef26cdacec1f7dac026ba2aee32d9de8fd8ab30c039adbcdbe6 \
@@ -44,13 +48,13 @@ Before publishing, release images are scanned for known vulnerabilities (fixable
 ### Build it yourself
 
 ```sh
-git clone https://github.com/ncecere/open-model-gateway.git
+git clone https://github.com/bitop-dev/open-model-gateway.git
 cd open-model-gateway
 git checkout v0.10.0       # the release you want
 docker build -t open-model-gateway:v0.10.0 .
 ```
 
-The repository's manual publishing workflow also pushes a tested image of `main` to `ghcr.io/ncecere/open-model-gateway`, tagged with the full commit SHA, for staging.
+In the v0.10.0 source, the manual publishing workflow pushes a tested image of `main` to `ghcr.io/ncecere/open-model-gateway`, tagged `sha-<short commit SHA>`, for staging. Post-transfer publishing will use `ghcr.io/bitop-dev/open-model-gateway`; check the workflow at the revision you build.
 
 | Property | Value |
 |---|---|

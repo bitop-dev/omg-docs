@@ -11,13 +11,13 @@ export const productSite = 'https://omg.bitop.dev';
 
 /** The docs' own repository: "Edit on GitHub" links point here. */
 export const gitConfig = {
-  user: 'ncecere',
+  user: 'bitop-dev',
   repo: 'omg-docs',
   branch: 'main',
 };
 
 /** The product's repository. */
-export const productRepo = 'https://github.com/ncecere/open-model-gateway';
+export const productRepo = 'https://github.com/bitop-dev/open-model-gateway';
 
 /** The Open Model Gateway release these docs describe. */
 export const productVersion = 'v0.10.0';
@@ -29,6 +29,8 @@ export const productReleaseDate = '2026-11-02';
  * That release's container image digest (the multi-arch index), verified against the
  * GitHub release's digest asset and the registry. Deploy as
  * `ghcr.io/ncecere/open-model-gateway:<productVersion>@<productImageDigest>`.
+ * v0.10.0 predates the transfer: its registry path and signing identity stay
+ * under ncecere even though repository and edit links now use bitop-dev.
  */
 export const productImageDigest =
   'sha256:77a37910d5af8ef26cdacec1f7dac026ba2aee32d9de8fd8ab30c039adbcdbe6';

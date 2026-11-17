@@ -9,7 +9,7 @@ Open Model Gateway has two HTTP APIs:
 - **The management API** under `/api/v1`, used by the dashboard with browser sessions and, from v0.8.0, by scripts with [admin API tokens](/docs/administration/admin-api-tokens). API keys can't use it. See [Management API](/docs/api/management-api).
 
 <Callout title="A supported subset, on purpose">
-  Each endpoint accepts a documented subset of the vendor's API, and each provider supports a subset of that. Anything outside it is refused with an error, never silently dropped or changed, except where a page says a field is accepted and dropped. This reference is written by hand from the gateway's source. From v0.10.0 the repository also carries a drift-checked OpenAPI 3.1 document of the supported inference API, [`docs/openapi/inference.openapi.json`](https://github.com/ncecere/open-model-gateway/blob/v0.10.0/docs/openapi/inference.openapi.json) (27 operations), checked against the running gateway and the official OpenAI and Anthropic SDKs.
+  Each endpoint accepts a documented subset of the vendor's API, and each provider supports a subset of that. Anything outside it is refused with an error, never silently dropped or changed, except where a page says a field is accepted and dropped. This reference is written by hand from the gateway's source. From v0.10.0 the repository also carries a drift-checked OpenAPI 3.1 document of the supported inference API, [`docs/openapi/inference.openapi.json`](https://github.com/bitop-dev/open-model-gateway/blob/v0.10.0/docs/openapi/inference.openapi.json) (27 operations), checked against the running gateway and the official OpenAI and Anthropic SDKs.
 </Callout>
 
 ## Endpoints
